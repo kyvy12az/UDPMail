@@ -1,0 +1,7 @@
+From: System
+FromIP: Server
+To: quocdat
+Subject: Welcome to UDP Mail
+SentTime: 2026-10-04 21:18:03
+
+Thank you for using this service. We hope that you will feel comfortable using UDP Mail.

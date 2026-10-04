@@ -83,12 +83,13 @@ public class MailStorageService {
         Properties properties = new Properties();
         try (var reader = new java.io.StringReader(accountData)) { properties.load(reader); }
         String registerTime = properties.getProperty("registerTime", "Không rõ");
-        String registerIp = properties.getProperty("registerIP", properties.getProperty("registerIp", "Không rõ"));
+//        String registerIp = properties.getProperty("registerIP", properties.getProperty("registerIp", "Không rõ"));
         String password = plainPassword(accountData);
         return "From: System\nTo: " + username + "\nSubject: Thông tin tài khoản\nSentTime: " + registerTime +
                 "\n\nTên đăng nhập: " + properties.getProperty("username", username) +
                 "\nMật khẩu: " + (password == null ? "Không thể hiển thị (tài khoản cũ lưu passwordHash)" : password) +
-                "\nIP đăng ký: " + registerIp + "\nThời gian đăng ký: " + registerTime +
+//                "\nIP đăng ký: " + registerIp +
+                "\nThời gian đăng ký: " + registerTime +
                 "\n";
     }
     private String plainPassword(String accountData) {

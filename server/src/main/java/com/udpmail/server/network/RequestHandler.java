@@ -60,7 +60,7 @@ public class RequestHandler {
     }
     private Response<?> register(Request r, InetSocketAddress remote) throws Exception {
         String username = required(r, "username"), password = required(r, "password");
-        accounts.register(username, password, remote.getAddress().getHostAddress());
+        accounts.register(username, password);
         log("REGISTER", "Tạo " + username + " tại server_data/users/" + username + "/"); updateDashboard();
         return Response.success(r.getRequestId(), "Đăng ký thành công", null);
     }

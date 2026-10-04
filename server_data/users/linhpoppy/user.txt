@@ -1,4 +1,0 @@
-username: linhpoppy
-password: 123456
-registerIP: 127.0.0.1
-registerTime: 2026-10-04 16:22:06

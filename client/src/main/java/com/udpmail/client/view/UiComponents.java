@@ -1,10 +1,12 @@
 package com.udpmail.client.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 final class RoundedPanel extends JPanel {
     private final Color fill;
@@ -62,20 +64,24 @@ final class PasswordFieldWithToggle extends JPanel {
 }
 
 final class BrandPanel extends JPanel {
-    private final Icon mailIcon=IconManager.load("mail",150,150,Color.WHITE);
-    private final Icon accentIcon=IconManager.load("pencil",34,34,ViewStyles.CYAN);
+    private final BufferedImage background=loadBackground();
     BrandPanel(){setOpaque(false);setPreferredSize(new Dimension(450,650));}
     @Override protected void paintComponent(Graphics graphics){
-        Graphics2D g=(Graphics2D)graphics.create();g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setPaint(new GradientPaint(0,0,ViewStyles.NAVY_DARK,getWidth(),getHeight(),new Color(0x0860C7)));g.fillRect(0,0,getWidth(),getHeight());
-        g.setColor(new Color(255,255,255,18));g.fillOval(-130,-120,360,360);g.fillOval(getWidth()-210,getHeight()-230,380,380);
-        int cx=getWidth()/2,cy=Math.max(190,getHeight()/2-70);g.setColor(new Color(0x10A9F5));g.setStroke(new BasicStroke(3f));g.drawArc(cx-155,cy-90,310,180,15,310);
-        mailIcon.paintIcon(this,g,cx-75,cy-58);
-        draw(g,"UDP",cx-42,cy+130,new Font("Segoe UI",Font.BOLD,43),Color.WHITE);draw(g,"Mail",cx+70,cy+130,new Font("Segoe UI",Font.BOLD,43),ViewStyles.CYAN);
-        draw(g,"Kết nối và gửi thư an toàn",cx,cy+176,new Font("Segoe UI",Font.PLAIN,20),new Color(220,235,255));
-        g.setStroke(new BasicStroke(2f,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND,0,new float[]{6,8},0));g.setColor(new Color(0x40C8FF));
-        Path2D route=new Path2D.Double();route.moveTo(35,getHeight()-100);route.curveTo(cx-100,getHeight()-180,cx+50,getHeight()-60,getWidth()-45,getHeight()-135);g.draw(route);
-        accentIcon.paintIcon(this,g,getWidth()-83,getHeight()-170);g.dispose();
+        super.paintComponent(graphics);
+        Graphics2D g=(Graphics2D)graphics.create();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+        if(background==null){g.setColor(ViewStyles.NAVY_DARK);g.fillRect(0,0,getWidth(),getHeight());g.dispose();return;}
+        double scale=Math.max((double)getWidth()/background.getWidth(),(double)getHeight()/background.getHeight());
+        int width=(int)Math.ceil(background.getWidth()*scale),height=(int)Math.ceil(background.getHeight()*scale);
+        int x=(getWidth()-width)/2,y=(getHeight()-height)/2;
+        g.drawImage(background,x,y,width,height,null);g.dispose();
     }
-    private static void draw(Graphics2D g,String text,int x,int y,Font font,Color color){g.setFont(font);g.setColor(color);g.drawString(text,x-g.getFontMetrics().stringWidth(text)/2,y);}
+    private static BufferedImage loadBackground(){
+        try{
+            var resource=BrandPanel.class.getResource("/background.png");
+            if(resource==null){System.err.println("Không tìm thấy ảnh nền: /background.png");return null;}
+            return ImageIO.read(resource);
+        }catch(IOException e){System.err.println("Không thể tải ảnh nền /background.png: "+e.getMessage());return null;}
+    }
 }

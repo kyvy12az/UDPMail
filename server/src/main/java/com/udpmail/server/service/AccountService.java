@@ -16,7 +16,7 @@ public class AccountService {
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public AccountService() throws IOException { Files.createDirectories(StorageConfig.usersRoot()); }
-    public synchronized void register(String username, String password, String ip) throws IOException {
+    public synchronized void register(String username, String password) throws IOException {
         validate(username, password);
         if (password.indexOf('\n') >= 0 || password.indexOf('\r') >= 0) {
             throw new IllegalArgumentException("Mật khẩu không được chứa ký tự xuống dòng");
@@ -24,12 +24,26 @@ public class AccountService {
         Path directory = userDirectory(username);
         if (Files.exists(directory)) throw new AccountExistsException();
         Files.createDirectory(directory);
+        String registerTime = LocalDateTime.now().format(TIME);
+
         String accountData = "username: " + username + "\n"
                 + "password: " + password + "\n"
-                + "registerIP: " + ip + "\n"
-                + "registerTime: " + LocalDateTime.now().format(TIME) + "\n";
+//                + "registerIP: " + ip + "\n"
+                + "registerTime: " + registerTime + "\n";
         Files.writeString(directory.resolve("user.txt"), accountData, StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE_NEW);
+
+        String welcomeEmail =
+                "From: System\n"
+                        + "FromIP: Server\n"
+                        + "To: " + username + "\n"
+                        + "Subject: Welcome to UDP Mail\n"
+                        + "SentTime: " + registerTime + "\n"
+                        + "\n"
+                        + "Thank you for using this service. "
+                        + "We hope that you will feel comfortable "
+                        + "using UDP Mail.";
+        Files.writeString(directory.resolve("new_email.txt"), welcomeEmail, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
     }
     public boolean authenticate(String username, String password) throws IOException {
         Path file = userDirectory(username).resolve("user.txt");
@@ -53,9 +67,12 @@ public class AccountService {
                 Properties properties = new Properties();
                 try (var reader = Files.newBufferedReader(path.resolve("user.txt"), StandardCharsets.UTF_8)) { properties.load(reader); }
                 catch (IOException ignored) { return null; }
-                return new User(properties.getProperty("username", path.getFileName().toString()), "",
+                return new User(
+                        properties.getProperty("username", path.getFileName().toString()), "",
                         properties.getProperty("registerTime", "—"),
-                        properties.getProperty("registerIP", properties.getProperty("registerIp", "—")));
+//                        properties.getProperty("registerIP", properties.getProperty("registerIp", "—"))
+                        "_"
+                );
             }).filter(java.util.Objects::nonNull).sorted(java.util.Comparator.comparing(User::username)).toList();
         }
     }
