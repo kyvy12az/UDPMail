@@ -1,0 +1,6 @@
+package com.udpmail.common.protocol;
+
+public enum StatusCode {
+    SUCCESS, BAD_REQUEST, ACCOUNT_EXISTS, ACCOUNT_NOT_FOUND,
+    INVALID_PASSWORD, EMAIL_NOT_FOUND, RECEIVER_NOT_FOUND, SERVER_ERROR
+}

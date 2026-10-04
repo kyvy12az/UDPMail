@@ -1,0 +1,7 @@
+From: quocdat
+FromIP: 127.0.0.1
+To: kyvy1902
+Subject: xin chào Kỳ Vỹ
+SentTime: 2026-10-04 15:51:11
+
+xin chào bạn !!!
