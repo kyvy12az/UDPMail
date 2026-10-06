@@ -72,7 +72,9 @@ public class MainFrame extends JFrame {
     private JComponent emptyState(String text){JPanel panel=new JPanel(new GridBagLayout());panel.setOpaque(false);JLabel label=new JLabel(text,IconManager.load("mail",52,52,ViewStyles.BORDER),SwingConstants.CENTER);label.setHorizontalTextPosition(SwingConstants.CENTER);label.setVerticalTextPosition(SwingConstants.BOTTOM);label.setIconTextGap(14);label.setForeground(ViewStyles.MUTED);label.setFont(new Font("Segoe UI",Font.PLAIN,16));panel.add(label);return panel;}
 
     private JComponent statusBar(){JPanel bar=new JPanel(new BorderLayout());bar.setBackground(ViewStyles.NAVY);bar.setBorder(new EmptyBorder(9,18,9,18));status.setForeground(Color.WHITE);status.setIcon(IconManager.load("info",17,17,Color.WHITE));status.setIconTextGap(9);countStatus.setForeground(new Color(0xD3E6FF));bar.add(status,BorderLayout.WEST);bar.add(countStatus,BorderLayout.EAST);return bar;}
-    private void setFiles(List<String> names,String action){model.clear();names.forEach(model::addElement);countMessage.setText("Đã nhận "+model.size()+" tên file từ Server");status.setText(action+"  •  Server trả về "+model.size()+" tên file  •  "+ViewStyles.serverAddress());countStatus.setText(model.size()+" file");}
+    private void setFiles(List<String> names,String action){model.clear();names.forEach(model::addElement);countMessage.setText("Đã nhận "+model.size()+" tên file từ Server");
+//        status.setText(action+"  •  Server trả về "+model.size()+" tên file  •  "+ViewStyles.serverAddress());
+        countStatus.setText(model.size()+" file");}
 
     private void readSelected(String selected){
         actionBadge.setText("READ_EMAIL | "+selected);detailCards.show(detailBody,"loading");files.setEnabled(false);

@@ -31,7 +31,7 @@ public class LoginFrame extends JFrame {
         form.add(Box.createVerticalStrut(24));login.setMaximumSize(new Dimension(Integer.MAX_VALUE,48));login.setAlignmentX(Component.LEFT_ALIGNMENT);login.setIcon(IconManager.load("log-in",20,20,Color.WHITE));login.setIconTextGap(10);form.add(login);
         form.add(Box.createVerticalStrut(20));form.add(separator());form.add(Box.createVerticalStrut(12));
         register.setAlignmentX(Component.LEFT_ALIGNMENT);register.setMaximumSize(new Dimension(Integer.MAX_VALUE,38));register.setForeground(ViewStyles.PRIMARY);register.setFont(new Font("Segoe UI",Font.BOLD,14));register.setContentAreaFilled(false);register.setBorderPainted(false);register.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));form.add(register);
-        form.add(Box.createVerticalGlue());form.add(serverStatus());
+//        form.add(Box.createVerticalGlue());form.add(serverStatus());
         outer.add(form);login.addActionListener(e->{String user=username.getText().trim(),pass=new String(password.getPassword());if(user.isEmpty()){validation("Vui lòng nhập tên đăng nhập.",username);return;}if(pass.isEmpty()){validation("Vui lòng nhập mật khẩu.",password.field());return;}onLogin.accept(user,pass);});
         register.addActionListener(e->onRegister.run());return outer;
     }

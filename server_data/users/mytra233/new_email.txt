@@ -1,0 +1,7 @@
+From: System
+FromIP: Server
+To: mytra233
+Subject: Welcome to UDP Mail
+SentTime: 2026-10-05 21:18:47
+
+Thank you for using this service. We hope that you will feel comfortable using UDP Mail.

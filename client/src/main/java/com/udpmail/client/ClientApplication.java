@@ -27,7 +27,7 @@ public class ClientApplication {
 
     private ClientApplication() throws Exception {
         udp = new UDPClient(
-                System.getProperty("udp.mail.host", "127.0.0.1"),
+                System.getProperty("udp.mail.host", "172.20.10.7"),
                 Integer.getInteger("udp.mail.port", 2006)
         );
 
